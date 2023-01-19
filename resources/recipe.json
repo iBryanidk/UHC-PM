@@ -1,0 +1,25 @@
+{
+  "recipe": [
+    {
+      "input": {
+        "A": {
+          "id": 266
+        },
+        "B": {
+          "id": -155
+        }
+      },
+      "output": [
+        {
+          "id": 322,
+          "nbt_b64": "CgAACgcAZGlzcGxheQgEAE5hbWUUAMKncsKnbMKnNkdvbGRlbiBIZWFkAAgLAGdvbGRlbl9oZWFkBwBpQnJ5TWF4AA=="
+        }
+      ],
+      "shape": [
+        "AAA",
+        "ABA",
+        "AAA"
+      ]
+    }
+  ]
+}

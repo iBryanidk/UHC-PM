@@ -1,0 +1,17 @@
+name: UHC
+main: UHC\Loader
+author: iBryMax
+api: 4.0.0
+version: 1.0.0
+website: https://github.com/iBryanidk
+
+permissions:
+  ultrahardcore.command.uhc:
+    default: op
+    description: Permission for /uhc
+  ultrahardcore.command.cet:
+    default: op
+    description: Permission for /cet
+  ultrahardcore.command.rlw:
+    default: op
+    description: Permission for /rlw

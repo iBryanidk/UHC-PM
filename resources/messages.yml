@@ -1,0 +1,66 @@
+no-permission: "&cYou haven't permission"
+
+player-join-to-server: "&7[&a+&7] &f{player_name}"
+player-quit-to-server: "&7[&c-&7] &f{player_name}"
+
+player-default-name-tag: "&c{player_name} &7| &c{heart}"
+player-default-team-name-tag: "{team} &f- &c{player_name} &7| &c{heart}"
+player-default-score-tag: "&7[&f{device} &7| &f{device_model}&7]"
+
+player-it's-host: "You're new &l&4HOST&r from &l&7UHC"
+player-no-it's-host: "You're not &l&4HOST&r from &l&7UHC"
+
+player-have-team: "&cYou're already in {team}"
+player-not-have-team: "&cYou're not in any Team"
+
+player-teams-don't-match: "&cTeams don't match"
+
+player-not-has-been-invited-to-team: "&cYou've not been invited to any Team"
+
+player-invited-a-player-to-team: "You've invited a &a{player_name}&r to {team}"
+player-has-been-invited-a-team: "You're invited to {team}"
+
+player-kick-a-player-from-team: "You've &ckicked&r a &a{player_name}&r from {team}"
+player-has-been-kicked-from-team: "You've been &ckicked&r from {team}"
+
+player-has-joined-to-team: "You've joined to {team}"
+player-has-been-leave-to-team: "You've leave from {team}"
+
+player-are-owner-of-team: "&cYou're Own of {team}"
+player-are-not-owner-of-team: "&cYou're not Own of {team}"
+
+player-death-by-cause-entity-attack: "&c{player_name}&7[&e{player_kills}&7]&f was slain by &e{attacker_name}&7[&e{attacker_kills}&7]"
+player-death-by-cause-projectile: "&c{player_name}&7[&e{player_kills}&7]&f was slain by &e{attacker_name}&7[&e{attacker_kills}&7]"
+
+player-death-by-cause-contact: "&c{player_name}&7[&e{player_kills}&7]&f died from being near a cactus .."
+player-death-by-cause-suffocation: "&c{player_name}&7[&e{player_kills}&7]&f died suffocated!"
+player-death-by-cause-fall: "&c{player_name}&7[&e{player_kills}&7]&f fell from a high place!"
+player-death-by-cause-fire: "&c{player_name}&7[&e{player_kills}&7]&f died burned!"
+player-death-by-cause-lava: "&c{player_name}&7[&e{player_kills}&7]&f died burned by lava!"
+player-death-by-cause-drowning: "&c{player_name}&7[&e{player_kills}&7]&f drowned!"
+player-death-by-cause-explosion: "&c{player_name}&7[&e{player_kills}&7]&f exploded!"
+player-death-by-cause-void: "&c{player_name}&7[&e{player_kills}&7]&f fell from the world!"
+player-death-by-cause-suicide: "&c{player_name}&7[&e{player_kills}&7]&f committed suicide!"
+player-death-by-cause-magic: "&c{player_name}&7[&e{player_kills}&7]&f died because of magic!"
+player-death-by-cause-default: "&c{player_name}&7[&e{player_kills}&7]&f it is not known how he died .."
+
+team-command-help:
+  - "&e/team create &7(Create a new team)"
+  - "&e/team delete &7(Delete a team)"
+  - "&e/team leave &7(Leave of team)"
+  - "&e/team invite <name> &7(Invite a player to team)"
+  - "&e/team accept &7(Accept team invite)"
+  - "&e/team kick <name> &7(Kick a player from team)"
+  - "&e/team list &7(List of teams created)"
+
+uhc-command-help:
+  - "&e/uhc start &7(Start a uhc)"
+  - "&e/uhc stop &7(Stop a uhc)"
+  - "&e/uhc prepare &7(Prepare a uhc)"
+  - "&e/uhc settings &7(Configure settings of uhc)"
+  - "&e/uhc host &7(Host a uhc)"
+  - "&e/uhc revive <name> &7(Revive a player)"
+  - "&e/uhc reviveteam <id> &7(Revive a team)"
+
+uhc-scenarios-list-header: "&dThe active scenarios are&f: "
+uhc-scenarios-list: "{scenario_name} &7({scenario_description})"

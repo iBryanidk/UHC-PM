@@ -1,0 +1,17 @@
+{
+  "format_version": 1,
+  "header": {
+    "description": "byjorge#4196",
+    "name": "Vaint Network Pack",
+    "uuid": "218d0718-5f93-8e8e-bf90-8ddf4c1fa556",
+    "version": [2, 0, 0]
+  },
+  "modules": [
+    {
+      "description": "",
+      "type": "resources",
+      "uuid": "86c1a34d-4cc8-4ed8-923e-c185e122532c",
+      "version": [2, 0, 0]
+    }
+  ]
+}

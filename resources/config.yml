@@ -1,0 +1,12 @@
+plugin-config:
+  enable-texture-pack: true
+
+discord:
+  # If you want the records to be sent to Discord,
+  # you must set this value to true,
+  # but you must also assign the credentials to authenticate with Discord.
+  log: false
+
+  # Credentials for discord authentication
+  username: ""
+  url: ""
