@@ -58,10 +58,12 @@ class Session {
      * Session Constructor.
      * @param string $name
      * @param int $id
+     * @param string $rawUUID
      */
     public function __construct(
         protected string $name,
         protected int $id,
+        protected string $rawUUID,
     ){}
 
     /**
@@ -76,6 +78,13 @@ class Session {
      */
     public function getId() : int {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRawUUID() : string {
+        return $this->rawUUID;
     }
 
     /**
@@ -257,13 +266,6 @@ class Session {
     /**
      * @return void
      */
-    public function quit() : void {
-        SessionFactory::getInstance()->removeSession($this->getName());
-    }
-
-    /**
-     * @return void
-     */
     public function showCoordinates() : void {
         $this->getPlayerNonNull()->getNetworkSession()->sendDataPacket(GameRulesChangedPacket::create(["showcoordinates" => new BoolGameRule(true, false)]));
     }
@@ -274,7 +276,7 @@ class Session {
     public function getPlayer() : ?Player {
         try {
             return $this->getPlayerNonNull();
-        }catch(PluginException $exception){
+        }catch(PluginException){
             return null;
         }
     }
@@ -283,7 +285,7 @@ class Session {
      * @return Player
      */
     public function getPlayerNonNull() : Player {
-        return Server::getInstance()->getPlayerExact($this->getName()) ?? throw new PluginException("Player is offline");
+        return Server::getInstance()->getPlayerByRawUUID($this->getRawUUID()) ?? throw new PluginException("Player is offline");
     }
 }
 

@@ -16,10 +16,12 @@ class SessionFactory {
 
     /**
      * @param string $name
+     * @param int $id
+     * @param string $rawUUID
      * @return Session
      */
-    public function addSession(string $name) : Session {
-        return $this->sessions[$name] = new Session($name, mt_rand(PHP_INT_MIN, PHP_INT_MAX));
+    public function addSession(string $name, int $id, string $rawUUID) : Session {
+        return $this->sessions[$name] = new Session($name, $id, $rawUUID);
     }
 
     /**
@@ -27,15 +29,18 @@ class SessionFactory {
      * @return void
      */
     public function removeSession(string $name) : void {
+
+        ($this->getSession($name))?->trySave();
+
         unset($this->sessions[$name]);
     }
 
     /**
      * @param string $name
-     * @return Session
+     * @return Session|null
      */
-    public function getSession(string $name) : Session {
-        return $this->sessions[$name] ?? $this->addSession($name);
+    public function getSession(string $name) : ?Session {
+        return $this->sessions[$name] ?? null;
     }
 
     /**
