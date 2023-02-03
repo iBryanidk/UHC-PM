@@ -2,23 +2,17 @@
 
 namespace UHC\world\inventory\action;
 
-use UHC\Loader;
-
 use UHC\session\Session;
 use UHC\session\SessionFactory;
 
 use UHC\world\inventory\AnvilInventory;
+use UHC\world\inventory\transaction\AnvilTransaction;
 use UHC\world\inventory\utils\NetworkInventoryAction;
-use UHC\world\inventory\transaction\EnchantingTransaction;
 
 use pocketmine\item\Item;
 use pocketmine\player\Player;
-use pocketmine\item\VanillaItems;
 use pocketmine\plugin\PluginException;
 
-use pocketmine\block\inventory\AnvilInventory as AnvilInventoryAlias;
-
-use pocketmine\inventory\transaction\InventoryTransaction;
 use pocketmine\inventory\transaction\action\InventoryAction;
 
 class AnvilAction extends InventoryAction {
@@ -62,14 +56,13 @@ class AnvilAction extends InventoryAction {
         if(!$this->inventory->slotExists($this->inventorySlot)){
             throw new PluginException("Slot does not exist");
         }
-    }
-
-    /**
-     * @param Player $source
-     * @return bool
-     */
-    public function onPreExecute(Player $source) : bool {
-        return true;
+        /** @var AnvilTransaction $transaction */
+        $transaction = $session->getAnvilTransaction();
+        switch($this->getType()){
+            case NetworkInventoryAction::SOURCE_TYPE_ANVIL_RESULT:
+                $transaction->setResult($this->getSourceItem());
+            break;
+        }
     }
 
     /**
@@ -83,9 +76,11 @@ class AnvilAction extends InventoryAction {
         if($session->getAnvilTransaction() === null){
             throw new PluginException("Player doesn't have an existing enchanting transaction");
         }
+        /** @var AnvilTransaction $transaction */
+        $transaction = $session->getAnvilTransaction();
         switch($this->getType()){
             case NetworkInventoryAction::SOURCE_TYPE_ANVIL_RESULT:
-
+                $transaction->onSuccess($this->inventory);
             break;
         }
     }

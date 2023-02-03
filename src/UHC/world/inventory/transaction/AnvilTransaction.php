@@ -3,7 +3,9 @@
 namespace UHC\world\inventory\transaction;
 
 use UHC\session\Session;
+
 use UHC\world\inventory\AnvilInventory;
+use UHC\world\inventory\action\AnvilAction;
 
 use pocketmine\player\Player;
 use pocketmine\plugin\PluginException;
@@ -28,8 +30,9 @@ use pocketmine\block\BlockToolType;
 use pocketmine\block\VanillaBlocks;
 
 use pocketmine\inventory\ArmorInventory;
-use pocketmine\inventory\transaction\action\SlotChangeAction;
 use pocketmine\inventory\transaction\InventoryTransaction;
+use pocketmine\inventory\transaction\action\InventoryAction;
+use pocketmine\inventory\transaction\action\SlotChangeAction;
 
 class AnvilTransaction extends InventoryTransaction {
 
@@ -60,8 +63,8 @@ class AnvilTransaction extends InventoryTransaction {
     public function __construct(
         Player $source,
         protected Session $session,
-        array $actions = [])
-    {
+        array $actions = []
+    ){
         parent::__construct($source, $actions);
     }
 
@@ -73,18 +76,17 @@ class AnvilTransaction extends InventoryTransaction {
     }
 
     /**
-     * @param string $name
-     * @return void
-     */
-    public function setName(string $name) : void {
-        $this->name = $name;
-    }
-
-    /**
      * @return int
      */
     public function getCost() : int {
         return $this->cost;
+    }
+
+    /**
+     * @param int $cost
+     */
+    public function setCost(int $cost) : void {
+        $this->cost = $cost;
     }
 
     /**
@@ -187,8 +189,14 @@ class AnvilTransaction extends InventoryTransaction {
      */
     public function validate() : void {
         $this->squashDuplicateSlotChanges();
-        if(count($this->actions) < 3) {
+        if(count($this->actions) < 3){
             throw new PluginException("Transaction must have at least three actions to be executable");
+        }
+        foreach($this->actions as $action){
+
+            if(!$action instanceof AnvilAction) continue;
+
+            $action->validate($this->getSource());
         }
         $haveItems = [];
         $needItems = [];
@@ -223,13 +231,6 @@ class AnvilTransaction extends InventoryTransaction {
     }
 
     /**
-     * Anvil Calculations:
-     * RepairCost = 2 ^ x - 1, where x is uses
-     * Uses = log(x + 1) / log(2), where x is RepairCost
-     *
-     * If the player is in survival, the max cost of an anvil is 39 levels.
-     * Otherwise, it's not capped.
-     *
      * @param Item $target
      * @param Item|null $sacrifice
      * @return int
@@ -430,7 +431,7 @@ class AnvilTransaction extends InventoryTransaction {
         if(!$this->source->isCreative()){
             $this->source->getXpManager()->subtractXpLevels($this->cost);
         }
-        //$inventory->onSuccess($this->source);
+        $inventory->onSuccess($this->source);
     }
 }
 

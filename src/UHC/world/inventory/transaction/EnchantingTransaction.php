@@ -2,13 +2,9 @@
 
 namespace UHC\world\inventory\transaction;
 
-use UHC\world\inventory\EnchantInventory;
 use UHC\world\inventory\action\EnchantingAction;
 
-use pocketmine\item\Item;
 use pocketmine\plugin\PluginException;
-
-use pocketmine\block\inventory\EnchantInventory as EnchantInventoryAlias;
 
 use pocketmine\inventory\transaction\InventoryTransaction;
 use pocketmine\inventory\transaction\action\InventoryAction;
@@ -19,18 +15,18 @@ class EnchantingTransaction extends InventoryTransaction {
     protected int $cost = 1;
 
     /**
+     * @return int
+     */
+    public function getCost() : int {
+        return $this->cost;
+    }
+
+    /**
      * @param int $cost
      * @return void
      */
     public function setCost(int $cost) : void {
         $this->cost = $cost;
-    }
-
-    /**
-     * @return int
-     */
-    public function getCost() : int {
-        return $this->cost;
     }
 
     /**
@@ -49,21 +45,12 @@ class EnchantingTransaction extends InventoryTransaction {
      */
     public function validate() : void {
         $this->squashDuplicateSlotChanges();
-        if(count($this->actions) < 3) {
+        if(count($this->actions) < 3){
             throw new PluginException("Transaction must have at least three actions to be executable");
         }
         foreach($this->actions as $action){
             $action->validate($this->getSource());
         }
-    }
-
-    /**
-     * @param EnchantInventory $inventory
-     * @param Item $item
-     * @return void
-     */
-    public function onSuccess(EnchantInventory $inventory, Item $item): void {
-        $inventory->setItem(EnchantInventoryAlias::SLOT_INPUT, $item);
     }
 }
 

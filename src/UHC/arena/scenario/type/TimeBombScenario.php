@@ -52,10 +52,10 @@ class TimeBombScenario extends Scenario {
         $player = $event->getPlayer();
         /** @var Item[] $contents */
         $contents = [];
-        foreach($player->getInventory()->getContents() as $slot => $item){
+        foreach($player->getInventory()->getContents() as $item){
             $contents[] = $item;
         }
-        foreach($player->getArmorInventory()->getContents() as $slot => $item){
+        foreach($player->getArmorInventory()->getContents() as $item){
             $contents[] = $item;
         }
         $contents[] = Item::jsonDeserialize(Loader::getInstance()->getRecipes()->get("recipe")[0]["output"][0]);
@@ -83,14 +83,13 @@ class TimeBombScenario extends Scenario {
         }
         Loader::getInstance()->getScheduler()->scheduleRepeatingTask(new class($player->getName(), Position::fromObject($player->getPosition()->floor(), $player->getWorld())) extends Task {
 
-            /** @var FloatingTextParticle */
-            protected FloatingTextParticle $floatingTextParticle;
-
             /** @var int */
             protected int $time = 30;
 
+            /** @var FloatingTextParticle */
+            protected FloatingTextParticle $floatingTextParticle;
+
             /**
-             * doTick Constructor.
              * @param string $name
              * @param Position|null $position
              */

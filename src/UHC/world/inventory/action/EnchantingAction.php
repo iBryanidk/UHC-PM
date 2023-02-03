@@ -124,7 +124,7 @@ class EnchantingAction extends InventoryAction {
                 }
             break;
             case NetworkInventoryAction::SOURCE_TYPE_ENCHANT_OUTPUT:
-                $transaction->onSuccess($this->inventory, $this->getSourceItem());
+                $this->inventory->setItem(EnchantInventoryAlias::SLOT_INPUT, $this->getSourceItem());
             break;
         }
     }
