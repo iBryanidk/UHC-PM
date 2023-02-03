@@ -2,27 +2,18 @@
 
 namespace UHC;
 
-use UHC\arena\team\Team;
 use UHC\utils\TextHelper;
 
+use UHC\arena\team\Team;
 use UHC\session\SessionFactory;
 
 use pocketmine\event\Listener;
 
 use pocketmine\event\player\PlayerChatEvent;
-use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 
 final class MainListener implements Listener {
-
-    /**
-     * @param PlayerLoginEvent $event
-     * @return void
-     */
-    public function onPlayerLoginEvent(PlayerLoginEvent $event) : void {
-        SessionFactory::getInstance()->addSession($event->getPlayer()->getName());
-    }
 
     /**
      * @param PlayerJoinEvent $event
@@ -31,7 +22,7 @@ final class MainListener implements Listener {
     public function onPlayerJoinEvent(PlayerJoinEvent $event) : void {
         $player = $event->getPlayer();
 
-        $session = SessionFactory::getInstance()->getSession($player->getName());
+        $session = SessionFactory::getInstance()->addSession($player->getName(), spl_object_id($player), $player->getUniqueId()->getBytes());
         $session->tryReconnect();
         $session->showCoordinates();
 
@@ -47,9 +38,7 @@ final class MainListener implements Listener {
     public function onPlayerQuitEvent(PlayerQuitEvent $event) : void {
         $player = $event->getPlayer();
 
-        $session = SessionFactory::getInstance()->getSession($player->getName());
-        $session->trySave();
-        $session->quit();
+        SessionFactory::getInstance()->removeSession($player->getName());
 
         $event->setQuitMessage(TextHelper::replace(TextHelper::getMessageFile()->get("player-quit-to-server"), [
             "player_name" => $player->getName(),

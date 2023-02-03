@@ -43,13 +43,14 @@ use UHC\item\FishingRod;
 
 use UHC\world\block\TNT;
 use UHC\world\entities\FishingHook;
+
+use UHC\world\block\Anvil;
 use UHC\world\block\EnchantingTable;
 
 use UHC\listener\GameListener;
 
 use UHC\task\GameUpdaterTask;
 use UHC\task\PlayerNameTagUpdaterTask;
-use UHC\task\ClearEntitiesUpdaterTask;
 
 use UHC\arena\scenario\ScenarioFactory;
 use UHC\world\inventory\transaction\InventoryFactory;
@@ -80,10 +81,11 @@ class Loader extends PluginBase {
      */
     public function onEnable() : void {
         $result = $this->getServer()->getCraftingManager();
+        /** @noinspection PhpClosureCanBeConvertedToFirstClassCallableInspection */
         $itemDeserializerFunc = \Closure::fromCallable([Item::class, 'jsonDeserialize']);
 
         $this->recipes = new Config($this->getDataFolder()."recipe.json", Config::JSON);
-        foreach($this->recipes->get("recipe") as $index => $recipe){
+        foreach($this->recipes->get("recipe") as $recipe){
             $result->registerShapedRecipe(new ShapedRecipe(
                 $recipe["shape"],
                 array_map($itemDeserializerFunc, $recipe["input"]),
@@ -109,12 +111,12 @@ class Loader extends PluginBase {
         );
 
         $this->getScheduler()->scheduleRepeatingTask(new GameUpdaterTask(), 20);
-        $this->getScheduler()->scheduleRepeatingTask(new ClearEntitiesUpdaterTask(), 20);
         $this->getScheduler()->scheduleRepeatingTask(new PlayerNameTagUpdaterTask(), 60);
 
         ItemFactory::getInstance()->register(new FishingRod(new ItemIdentifier(ItemIds::FISHING_ROD, 0), "Fishing Rod"), true);
 
         BlockFactory::getInstance()->register(new TNT(new BlockIdentifier(BlockLegacyIds::TNT, 0), "TNT", BlockBreakInfo::instant()), true);
+        BlockFactory::getInstance()->register(new Anvil(new BlockIdentifier(BlockLegacyIds::ANVIL, 0, null, null), "Anvil", new BlockBreakInfo(5.0, BlockToolType::PICKAXE, ToolTier::WOOD()->getHarvestLevel(), 6000.0)), true);
         BlockFactory::getInstance()->register(new EnchantingTable(new BlockIdentifier(BlockLegacyIds::ENCHANTING_TABLE, 0, null, TileEnchantingTable::class), "Enchanting Table", new BlockBreakInfo(5.0, BlockToolType::PICKAXE, ToolTier::WOOD()->getHarvestLevel(), 6000.0)), true);
 
         EntityFactory::getInstance()->register(PrimedTNT::class, function(World $world, CompoundTag $nbt) : PrimedTNT {
