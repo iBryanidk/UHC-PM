@@ -12,6 +12,6 @@ permissions:
   ultrahardcore.command.cet:
     default: op
     description: Permission for /cet
-  ultrahardcore.command.rlw:
+  ultrahardcore.command.worlds:
     default: op
-    description: Permission for /rlw
+    description: Permission for /worlds

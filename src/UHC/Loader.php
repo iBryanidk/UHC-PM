@@ -98,9 +98,9 @@ class Loader extends PluginBase {
         TexturePackLoader::getInstance()->load();
 
         $this->registerCommand(
-            new UhcCommand("uhc", "Uhc management", DefaultPermissionNames::COMMAND_UHC, []),
-            new TeamCommand("team", "Create team or select any team to join", null, []),
-            new ReloadWorldsCommand("reloadworlds", "RLW management", DefaultPermissionNames::COMMAND_RLW, ["rlw"]),
+            new UhcCommand("uhc", "", DefaultPermissionNames::COMMAND_UHC, []),
+            new TeamCommand("team", "Team management", null, []),
+            new ReloadWorldsCommand("worlds", "Worlds backup management", DefaultPermissionNames::COMMAND_WORLDS, []),
             new ScenariosCommand("scenarios", "Scenarios available", null, []),
             new SpectateCommand("spectate", "Spectate a current game", null, []),
         );
