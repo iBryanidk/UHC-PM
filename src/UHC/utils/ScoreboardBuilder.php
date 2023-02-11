@@ -92,8 +92,8 @@ final class ScoreboardBuilder {
                 break;
             }
         }
-        array_unshift($lines, "&r&7");
-        array_push($lines, "&r&7&7");
+        array_unshift($lines, "&r&7-------------------");
+        array_push($lines, "&r&7&7-------------------");
 
         Scoreboards::getInstance()->add($session->getPlayerNonNull(), TextHelper::replace("&r&l&dUHC", [], false));
         foreach($lines as $line => $newLine){
