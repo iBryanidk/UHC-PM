@@ -16,8 +16,11 @@ class YamlProvider {
      * @return void
      */
     public function gen() : void {
-        if(!is_dir(Loader::getInstance()->getDataFolder()."/worlds/")){
-            @mkdir(Loader::getInstance()->getDataFolder()."/worlds/");
+        if(!is_dir(Loader::getInstance()->getDataFolder()."worlds")){
+            @mkdir(Loader::getInstance()->getDataFolder()."worlds");
+        }
+        if(!is_dir(Loader::getInstance()->getDataFolder()."resource_pack")){
+            @mkdir(Loader::getInstance()->getDataFolder()."resource_pack");
         }
         foreach(Loader::getInstance()->getResources() as $resource => $fileInfo){
             Loader::getInstance()->saveResource($resource, $this->isDevelopmentVersion());

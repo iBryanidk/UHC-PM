@@ -1,10 +1,13 @@
 plugin-config:
+  # This should be disabled if you don't have any TEXTURE PACK you want to load,
+  # otherwise you should place the folder with your TEXTURE PACK in the corresponding directory,
+  # this allows you to continue working with the TEXTURE PACK without the need to compress the TEXTURE PACK textures
+  # and unzip it when you want to make a change THE PLUGIN DOES IT BY ITSELF.
   enable-texture-pack: true
 
 discord:
-  # If you want the records to be sent to Discord,
-  # you must set this value to true,
-  # but you must also assign the credentials to authenticate with Discord.
+  # If you want the logs to be sent to Discord. You must set this value to true. But you must also
+  # set the credentials to authenticate with Discord
   log: false
 
   # Credentials for discord authentication
