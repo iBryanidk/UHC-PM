@@ -4,11 +4,8 @@ namespace UHC\world\inventory\handler;
 
 use UHC\session\Session;
 
-use UHC\world\inventory\action\AnvilAction;
-use UHC\world\inventory\AnvilInventory;
 use UHC\world\inventory\EnchantInventory;
 use UHC\world\inventory\action\EnchantingAction;
-use UHC\world\inventory\transaction\AnvilTransaction;
 use UHC\world\inventory\transaction\EnchantingTransaction;
 use UHC\world\inventory\transaction\utils\TransactionHandler;
 use UHC\world\inventory\utils\NetworkInventoryAction as NetworkInventoryActionAlias;
@@ -51,9 +48,7 @@ class InventoryTransactionHandler extends TransactionHandler {
         $enchanting = false;
 
         foreach($packet->trData->getActions() as $action){
-            if($this->isFromAnvil($action)){
-                $anvil = true;
-            }elseif($this->isFromEnchantingTable($action)){
+            if($this->isFromEnchantingTable($action)){
                 $enchanting = true;
             }else{
                 throw new PluginException("Only enchantment tables should be processed");
@@ -62,60 +57,8 @@ class InventoryTransactionHandler extends TransactionHandler {
                 $actions[] = $action;
             }
         }
-        if($anvil){
-            $this->handleAnvil($actions);
-        }elseif($enchanting){
+        if($enchanting){
             $this->handleEnchanting($actions);
-        }
-    }
-
-    /**
-     * @param NetworkInventoryAction $action
-     * @return bool
-     */
-    protected function isFromAnvil(NetworkInventoryAction $action) : bool {
-        return ($action->sourceType === NetworkInventoryAction::SOURCE_TODO && ($action->windowId === NetworkInventoryAction::SOURCE_TYPE_ANVIL_RESULT)) || ($this->session->getAnvilTransaction() !== null && !$action->oldItem->getItemStack()->equals($action->newItem->getItemStack()) && isset(UIInventorySlotOffset::ANVIL[$action->inventorySlot])) || $this->session->getPlayer()->getCurrentWindow() instanceof AnvilInventory;
-    }
-
-    /**
-     * @param InventoryAction[] $actions
-     * @return void
-     */
-    protected function handleAnvil(array $actions) : void {
-        $player = $this->session->getPlayer();
-
-        $anvilTransaction = $this->session->getAnvilTransaction();
-        if($anvilTransaction === null){
-            $anvilTransaction = new AnvilTransaction($player, $this->session, $actions);
-            $this->session->setAnvilTransaction($anvilTransaction);
-        }else{
-            foreach($actions as $action){
-                $anvilTransaction->addAction($action);
-            }
-        }
-        $inventoryManager = $player->getNetworkSession()->getInvManager();
-        if($inventoryManager === null){
-            $this->session->setAnvilTransaction();
-            return;
-        }
-        try {
-            $anvilTransaction->validate();
-        } catch(\Exception $exception){
-            var_dump("One");
-            var_dump($exception->getMessage()." : ".$exception->getFile()." : ".$exception->getLine());
-            return;
-        }
-        try {
-            $inventoryManager->onTransactionStart($anvilTransaction);
-            $anvilTransaction->execute();
-        } catch(\Exception $exception){
-
-            var_dump("Two");
-            var_dump($exception->getMessage());
-
-            $this->sync($inventoryManager);
-        } finally {
-            $this->session->setAnvilTransaction();
         }
     }
 
@@ -144,7 +87,7 @@ class InventoryTransactionHandler extends TransactionHandler {
         }
         try {
             $enchantingTransaction->validate();
-        } catch(PluginException $exception){
+        } catch(PluginException){
             return;
         }
         $inventoryManager = $player->getNetworkSession()->getInvManager();
@@ -155,7 +98,7 @@ class InventoryTransactionHandler extends TransactionHandler {
         try {
             $inventoryManager->onTransactionStart($enchantingTransaction);
             $enchantingTransaction->execute();
-        } catch(\Exception $exception){
+        } catch(\Exception){
             $this->sync($inventoryManager);
         } finally {
             $this->session->setEnchantingTransaction();
@@ -187,7 +130,6 @@ class InventoryTransactionHandler extends TransactionHandler {
                     NetworkInventoryActionAlias::SOURCE_TYPE_ENCHANT_INPUT,
                     NetworkInventoryActionAlias::SOURCE_TYPE_ENCHANT_MATERIAL,
                     NetworkInventoryActionAlias::SOURCE_TYPE_ENCHANT_OUTPUT => $currentInventory instanceof EnchantInventory ? new EnchantingAction($currentInventory, $slot, $oldItem, $newItem, $action->windowId) : null,
-                    NetworkInventoryAction::SOURCE_TYPE_ANVIL_RESULT => $currentInventory instanceof AnvilInventory ? new AnvilAction($currentInventory, $slot, $oldItem, $newItem, $action->windowId) : null,
                     default => null,
                 };
         }

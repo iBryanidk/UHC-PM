@@ -11,13 +11,14 @@ use UHC\session\utils\Device;
 use UHC\session\utils\DeviceModel;
 use UHC\session\utils\ReconnectUtils;
 
-use UHC\world\inventory\transaction\AnvilTransaction;
 use UHC\world\inventory\transaction\EnchantingTransaction;
 
 use pocketmine\Server;
 use pocketmine\player\Player;
+
 use pocketmine\world\Position;
 use pocketmine\player\GameMode;
+
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\plugin\PluginException;
 
@@ -50,9 +51,6 @@ class Session {
 
     /** @var EnchantingTransaction|null */
     protected ?EnchantingTransaction $enchantingTransaction = null;
-
-    /** @var AnvilTransaction|null */
-    protected ?AnvilTransaction $anvilTransaction = null;
 
     /**
      * Session Constructor.
@@ -130,21 +128,6 @@ class Session {
      */
     public function setEnchantingTransaction(EnchantingTransaction $enchantingTransaction = null) : void {
         $this->enchantingTransaction = $enchantingTransaction;
-    }
-
-    /**
-     * @return AnvilTransaction|null
-     */
-    public function getAnvilTransaction() : ?AnvilTransaction {
-        return $this->anvilTransaction;
-    }
-
-    /**
-     * @param AnvilTransaction|null $anvilTransaction
-     * @return void
-     */
-    public function setAnvilTransaction(AnvilTransaction $anvilTransaction = null) : void {
-        $this->anvilTransaction = $anvilTransaction;
     }
 
     /**

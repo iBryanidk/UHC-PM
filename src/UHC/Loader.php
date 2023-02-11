@@ -44,7 +44,6 @@ use UHC\item\FishingRod;
 use UHC\world\block\TNT;
 use UHC\world\entities\FishingHook;
 
-use UHC\world\block\Anvil;
 use UHC\world\block\EnchantingTable;
 
 use UHC\listener\GameListener;
@@ -116,7 +115,6 @@ class Loader extends PluginBase {
         ItemFactory::getInstance()->register(new FishingRod(new ItemIdentifier(ItemIds::FISHING_ROD, 0), "Fishing Rod"), true);
 
         BlockFactory::getInstance()->register(new TNT(new BlockIdentifier(BlockLegacyIds::TNT, 0), "TNT", BlockBreakInfo::instant()), true);
-        BlockFactory::getInstance()->register(new Anvil(new BlockIdentifier(BlockLegacyIds::ANVIL, 0, null, null), "Anvil", new BlockBreakInfo(5.0, BlockToolType::PICKAXE, ToolTier::WOOD()->getHarvestLevel(), 6000.0)), true);
         BlockFactory::getInstance()->register(new EnchantingTable(new BlockIdentifier(BlockLegacyIds::ENCHANTING_TABLE, 0, null, TileEnchantingTable::class), "Enchanting Table", new BlockBreakInfo(5.0, BlockToolType::PICKAXE, ToolTier::WOOD()->getHarvestLevel(), 6000.0)), true);
 
         EntityFactory::getInstance()->register(PrimedTNT::class, function(World $world, CompoundTag $nbt) : PrimedTNT {

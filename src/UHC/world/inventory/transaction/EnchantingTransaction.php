@@ -34,10 +34,7 @@ class EnchantingTransaction extends InventoryTransaction {
      * @return void
      */
     public function addAction(InventoryAction $action) : void {
-        if(!$action instanceof EnchantingAction){
-            return;
-        }
-        parent::addAction($action);
+        if($action instanceof EnchantingAction) parent::addAction($action);
     }
 
     /**

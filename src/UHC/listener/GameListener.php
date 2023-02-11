@@ -11,7 +11,6 @@ use UHC\session\SessionFactory;
 use UHC\arena\scenario\GameScenarios;
 use UHC\arena\scenario\ScenarioFactory;
 
-use UHC\world\inventory\AnvilInventory;
 use UHC\world\inventory\EnchantInventory;
 use UHC\world\inventory\transaction\InventoryFactory;
 
@@ -377,7 +376,7 @@ final class GameListener implements Listener {
 
         if(!($session = SessionFactory::getInstance()->getSession($player->getName())) instanceof Session) return;
 
-        if($player->getCurrentWindow() instanceof EnchantInventory || $player->getCurrentWindow() instanceof AnvilInventory){
+        if($player->getCurrentWindow() instanceof EnchantInventory){
             $packet = $event->getPacket();
             if(($handler = InventoryFactory::getInstance()->get($packet->getName())) !== null){
                 $handler->handle($session, $packet);
