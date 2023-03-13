@@ -5,7 +5,6 @@ namespace UHC\command;
 use UHC\utils\TextHelper;
 use UHC\task\async\WorldAsyncFactory;
 
-use pocketmine\Server;
 use pocketmine\player\Player;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -16,10 +15,10 @@ class ReloadWorldsCommand extends Command {
      * @param string $name
      * @param string $description
      * @param string|null $permission
-     * @param $alias
+     * @param array $aliases
      */
-    public function __construct(string $name, string $description, ?string $permission, $alias = []){
-        parent::__construct($name, $description, "", $alias);
+    public function __construct(string $name, string $description, ?string $permission, array $aliases = []){
+        parent::__construct($name, $description, "", $aliases);
 
         parent::setPermission($permission);
     }
