@@ -51,7 +51,7 @@ class TeamCommand extends Command {
             return;
         }
         if(count($args) === 0){
-            $sender->sendMessage(TextHelper::replace("&cEnough arguments, please try '/team help'."));
+            $sender->sendMessage(TextHelper::replace("&cUnrecognized command. Try /team help for more details"));
             return;
         }
         if(GameArena::getInstance()->getGamemodeType() !== ($gamemodeType = GamemodeType::TEAMS())){
@@ -238,8 +238,7 @@ class TeamCommand extends Command {
                 $sender->sendMessage(TextHelper::replace(TextHelper::getMessageFile()->get("team-command-help")));
             break;
             default:
-                $sender->sendMessage(TextHelper::replace("&cEnough arguments, please try '/team help'."));
-            break;
+                $sender->sendMessage(TextHelper::replace("&cUnrecognized command. Try /team help for more details"));
         }
     }
 }

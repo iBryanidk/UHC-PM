@@ -52,7 +52,7 @@ class UhcCommand extends Command {
             return;
         }
         if(count($args) === 0){
-            $sender->sendMessage(TextHelper::replace("&cEnough arguments, please try '/team help'."));
+            $sender->sendMessage(TextHelper::replace("&cUnrecognized command. Try /uhc help for more details"));
             return;
         }
         $session = SessionFactory::getInstance()->getSession($sender->getName());
@@ -158,8 +158,7 @@ class UhcCommand extends Command {
                 $sender->sendMessage(TextHelper::replace(TextHelper::getMessageFile()->get("uhc-command-help")));
             break;    
             default:
-                $sender->sendMessage(TextHelper::replace("&cEnough arguments, please try '/uhc help'."));
-            break;    
+                $sender->sendMessage(TextHelper::replace("&cUnrecognized command. Try /uhc help for more details"));
         }
     }
 }
