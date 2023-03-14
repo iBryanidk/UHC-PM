@@ -2,12 +2,12 @@
 
 namespace UHC\task;
 
-use pocketmine\Server;
-use UHC\session\Session;
-use UHC\session\SessionFactory;
-use UHC\utils\ScoreboardBuilder;
 use UHC\utils\Time;
 use UHC\utils\TextHelper;
+use UHC\utils\ScoreboardBuilder;
+
+use UHC\session\Session;
+use UHC\session\SessionFactory;
 
 use UHC\arena\game\GameArena;
 use UHC\arena\game\utils\GamemodeType;
@@ -17,6 +17,7 @@ use UHC\arena\game\utils\GameStatus;
 use UHC\event\GameEndEvent;
 use UHC\event\GameStartEvent;
 
+use pocketmine\Server;
 use pocketmine\scheduler\Task;
 
 class GameUpdaterTask extends Task {
@@ -26,7 +27,11 @@ class GameUpdaterTask extends Task {
      */
     public function onRun(): void {
         foreach(Server::getInstance()->getOnlinePlayers() as $player){
-            if(!$player->isConnected() || !($session = SessionFactory::getInstance()->getSession($player->getName())) instanceof Session){
+            if(!$player->isConnected()){
+                continue;
+            }
+            $session = SessionFactory::getInstance()->getSession($player->getName());
+            if(!$session instanceof Session){
                 continue;
             }
             ScoreboardBuilder::build($session);
