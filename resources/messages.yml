@@ -1,4 +1,4 @@
-no-permission: "&cYou haven't permission"
+no-permission: "&cYou don't have permission."
 
 player-join-to-server: "&7[&a+&7] &f{player_name}"
 player-quit-to-server: "&7[&c-&7] &f{player_name}"
